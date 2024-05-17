@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Member as MemberModel;
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 
 class Member extends BaseController
 {
@@ -29,65 +28,71 @@ class Member extends BaseController
     }
 
     public function save()
-    {
-        helper(["form"]);
-        $validation = \config\Services::validation();
+{
+    helper(['form']);
+    $validation = \Config\Services::validation();
 
-        $data = [];
-        if ($this->request->getMethod() == "post") {
-            $rules = [
-                "m_first_name" => "required|min_length[3]|max_length[50]",
-                "m_last_name" => "required|min_length[3]|max_length[50]",
-                "dob" => [
-                    "required",
-                    "valid_date",
-                    function($dob) {
-                        $currentYear = date('Y');
-                        $birthYear = date('Y', strtotime($dob));
-                        return $birthYear < 2024;
+    if ($this->request->getMethod() == "post") {
+        $rules = [
+            "m_first_name" => "required|min_length[3]|max_length[50]",
+            "m_last_name" => "required|min_length[3]|max_length[50]",
+            "dob" => [
+                "required",
+                "valid_date",
+                function ($str) { // Custom rule for validating before 2024
+                    $dob = date_create($str);
+                    if ($dob && date_format($dob, 'Y') >= 2024) {
+                        return false;
                     }
-                ],
-                "address" => "required|max_length[255]|min_length[10]",
-                "status" => "required|in_list[active, inactive]",
-                "gender" => "required|in_list[male, female]",
-                "phone" => "required|numeric|exact_length[10]",
-            ];
-
-            $errors = [
-                'dob' => [
-                    'valid_date' => 'The Date of Birth is not valid',
-                    'required' => 'The Date of Birth is required',
-                    'dob_check' => 'The Date of Birth must be before the year 2024'
-                ]
-            ];
-
-            $validation->setRules($rules, $errors);
-
-            if ($validation->withRequest($this->request)->run()) {
-                $data = [
-                    "m_first_name" => $this->request->getPost("m_first_name"),
-                    "m_last_name" => $this->request->getPost("m_last_name"),
-                    "m_address" => $this->request->getPost("address"),
-                    "m_dob" => $this->request->getPost("dob"),
-                    "m_status" => $this->request->getPost("status"),
-                    "m_gender" => $this->request->getPost("gender"),
-                    "m_phone" => $this->request->getPost("phone"),
-                ];
-
-                $result = $this->memberModel->createMember($data);
-                if($result) {
-                    return redirect()->to('/member-table');
-                } else {
-                    return "Something went wrong";
+                    return true;
                 }
+            ],
+            "address" => "required|max_length[255]|min_length[10]",
+            "status" => "required|in_list[active,inactive]",
+            "gender" => "required|in_list[male,female]",
+            "phone" => "required|numeric|exact_length[10]",
+        ];
+
+        $errors = [
+            'dob' => [
+                'required' => 'The Date of Birth is required.',
+                'valid_date' => 'The Date of Birth is not valid.',
+                'validate_before_2024' => 'The Date of Birth should be before 2024.'
+            ],
+        ];
+
+        // Custom validation rule to check if DOB is before 2024
+        $validation->setRule('dob', 'Date of Birth', 'validate_before_2024'); // apply the custom rule only to 'dob'
+
+        $validation->setRules($rules, $errors);
+
+        if ($validation->withRequest($this->request)->run()) {
+            $data = [
+                "m_first_name" => $this->request->getPost("m_first_name"),
+                "m_last_name" => $this->request->getPost("m_last_name"),
+                "m_address" => $this->request->getPost("address"),
+                "m_dob" => $this->request->getPost("dob"),
+                "m_status" => $this->request->getPost("status"),
+                "m_gender" => $this->request->getPost("gender"),
+                "m_phone" => $this->request->getPost("phone"),
+            ];
+
+            $result = $this->memberModel->createMember($data);
+            if ($result) {
+                return redirect()->to('/member-table');
             } else {
-                $data['validation'] = $validation;
-                return view('admin/forms/Member_form', $data);
+                return "Something went wrong";
             }
         } else {
-            return "Something worng happend, please try to contact Mayank";
+            $data['validation'] = $validation;
+            return view('admin/forms/Member_form', $data);
         }
-
-        // return view('admin/forms/Member_form', $data);
+    } else {
+        return "Something went wrong, please try to contact Mayank";
     }
+}
+
+
+
+
 }
