@@ -15,7 +15,7 @@ class Member extends BaseController
     public function index()
     {
         $data = [
-            "members" => $this->memberModel->getPaginatedMembers(10, 10),
+            "members" => $this->memberModel->getPaginatedMembers(20, 0),
             "pager" => $this->memberModel->pager,
         ];
 

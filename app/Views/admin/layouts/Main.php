@@ -86,10 +86,10 @@
 				</li>
 				<li class="menu-label">UI Elements</li>
 				<li>
-					<a href="widgets.html">
+					<a href="<?php echo base_url('member-table'); ?>">
 						<div class="parent-icon"><i class='bx bx-briefcase-alt-2'></i>
 						</div>
-						<div class="menu-title">Widgets</div>
+						<div class="menu-title">Members</div>
 					</a>
 				</li>
 				<li>
