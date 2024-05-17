@@ -36,17 +36,7 @@ class Member extends BaseController
         $rules = [
             "m_first_name" => "required|min_length[3]|max_length[50]",
             "m_last_name" => "required|min_length[3]|max_length[50]",
-            "dob" => [
-                "required",
-                "valid_date",
-                function ($str) { // Custom rule for validating before 2024
-                    $dob = date_create($str);
-                    if ($dob && date_format($dob, 'Y') >= 2024) {
-                        return false;
-                    }
-                    return true;
-                }
-            ],
+            "dob" => "required|valid_date",
             "address" => "required|max_length[255]|min_length[10]",
             "status" => "required|in_list[active,inactive]",
             "gender" => "required|in_list[male,female]",
@@ -57,16 +47,20 @@ class Member extends BaseController
             'dob' => [
                 'required' => 'The Date of Birth is required.',
                 'valid_date' => 'The Date of Birth is not valid.',
-                'validate_before_2024' => 'The Date of Birth should be before 2024.'
             ],
         ];
-
-        // Custom validation rule to check if DOB is before 2024
-        $validation->setRule('dob', 'Date of Birth', 'validate_before_2024'); // apply the custom rule only to 'dob'
 
         $validation->setRules($rules, $errors);
 
         if ($validation->withRequest($this->request)->run()) {
+            // Check if DOB is before 2024
+            $dob = date_create($this->request->getPost("dob"));
+            if ($dob && date_format($dob, 'Y') >= 2024) {
+                $validation->setError('dob', 'The Date of Birth should be before 2024.');
+                $data['validation'] = $validation;
+                return view('admin/forms/Member_form', $data);
+            }
+
             $data = [
                 "m_first_name" => $this->request->getPost("m_first_name"),
                 "m_last_name" => $this->request->getPost("m_last_name"),
@@ -91,6 +85,7 @@ class Member extends BaseController
         return "Something went wrong, please try to contact Mayank";
     }
 }
+
 
 
 
