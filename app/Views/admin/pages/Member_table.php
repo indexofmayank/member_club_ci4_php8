@@ -36,7 +36,7 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">
-                <?= $pager->links('page', 'default_full') ?>
+            <?= $pager->links('group1') ?>
             </div>
         </div>
     </div>

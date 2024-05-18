@@ -13,9 +13,13 @@ class Member extends BaseController
     }
 
     public function index()
-    {
+    {   
+
+
+        $pager = \Config\Services::pager();
+        $perPage = 10;
         $data = [
-            "members" => $this->memberModel->getPaginatedMembers(20, 0),
+            "members" => $this->memberModel->paginate($perPage, 'group1'),
             "pager" => $this->memberModel->pager,
         ];
 
