@@ -19,8 +19,9 @@ class Member extends BaseController
         $pager = \Config\Services::pager();
         $perPage = 10;
         $data = [
-            "members" => $this->memberModel->paginate($perPage, 'group1'),
+            "members" => $this->memberModel->orderBy('m_id', 'DESC')->paginate($perPage, 'group1'),
             "pager" => $this->memberModel->pager,
+            "pager_group" => 'group1',
         ];
 
         return view("/admin/pages/Member_table", $data);
