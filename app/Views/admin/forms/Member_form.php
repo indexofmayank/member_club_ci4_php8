@@ -16,10 +16,6 @@
 
         <form action="<?= base_url('member/save') ?>" method="post" enctype="multipart/form-data">
             <?= csrf_field() ?>
-            
-            
-
-
             <div class="mb-3 row">
                 <div class="col">
                     <label for="m_first_name" class="form-label">First Name *</label>

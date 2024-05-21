@@ -64,6 +64,7 @@ class Member extends BaseController
             "status" => "required|in_list[active,inactive]",
             "gender" => "required|in_list[male,female]",
             "phone" => "required|numeric|exact_length[10]",
+            "photo" => "uploaded[photo]|mime_in[photo,image/jgp,image/jpeg]|max_size[photo,2048]",
         ];
 
         $errors = [
@@ -71,6 +72,11 @@ class Member extends BaseController
                 'required' => 'The Date of Birth is required.',
                 'valid_date' => 'The Date of Birth is not valid.',
             ],
+            "photo" => [
+                'uploaded' => 'Please upload an image.',
+                'mime_in' => 'The uploaded file in not valid Image. Allowed types are jpg and jpeg',
+                'max_size' => 'The image size should not exceed 2MB.'
+            ]
         ];
 
         $validation->setRules($rules, $errors);
