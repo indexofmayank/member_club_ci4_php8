@@ -11,6 +11,7 @@
             <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
                 <thead>
                     <tr>
+                        <th>photo</th>
                         <th>First name</th>
                         <th>Last name</th>
                         <th>DOB</th>
@@ -23,6 +24,9 @@
                 <tbody>
                     <?php foreach($members as $member): ?>
                         <tr>
+                            <td>
+                                <img src="<?= site_url('member/member-photo/'.$member['m_id']) ?>" alt="photo" style="width: 40px; height: auto;">
+                            </td>
                             <td><?= esc($member['m_first_name']) ?></td>
                             <td><?= esc($member['m_last_name']) ?></td>
                             <td><?= esc($member['m_dob']) ?></td>

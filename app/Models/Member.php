@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class Member extends Model
 {
     protected $table            = 'members';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'm_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -19,7 +19,8 @@ class Member extends Model
         "m_address",
         "m_status",
         "m_gender",
-        "m_phone"
+        "m_phone",
+        "m_photo"
     ];
 
     protected bool $allowEmptyInserts = false;

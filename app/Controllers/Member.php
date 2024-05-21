@@ -27,6 +27,19 @@ class Member extends BaseController
         return view("/admin/pages/Member_table", $data);
     }
 
+    public function showImage($id)
+    {
+        $member = $this->memberModel->find($id);
+        if($member) {
+            $imageData = $member['m_photo'];
+            header('Content-Type: image/jpeg');
+            return $this->response->setContentType('jpg')->setBody($imageData);
+        } else {
+            echo "Image not found";
+        }
+
+    }
+
     public function addMemberForm()
     {
         return view("/admin/forms/Member_form");
@@ -38,6 +51,11 @@ class Member extends BaseController
     $validation = \Config\Services::validation();
 
     if ($this->request->getMethod() == "post") {
+
+        $photoFile = $this->request->getFile('photo');
+        $photoData = file_get_contents($photoFile->getTempName());
+
+
         $rules = [
             "m_first_name" => "required|min_length[3]|max_length[50]",
             "m_last_name" => "required|min_length[3]|max_length[50]",
@@ -74,6 +92,7 @@ class Member extends BaseController
                 "m_status" => $this->request->getPost("status"),
                 "m_gender" => $this->request->getPost("gender"),
                 "m_phone" => $this->request->getPost("phone"),
+                "m_photo" => $photoData,
             ];
 
             $result = $this->memberModel->createMember($data);
