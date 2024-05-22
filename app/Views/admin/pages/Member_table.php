@@ -4,7 +4,12 @@
 <div class="card">
     <div class="card-body">
         <?= anchor('add-member', 'Add New Member', ['class' => 'btn btn-primary mb-2 hover']) ?>
-
+        <div class="mb-3">
+            <form action="<?= base_url('member-table') ?>" method="GET">
+                <input type="text" class="form-label" name="search" value="<?= esc($searchTerm ?? '') ?>" placeholder="Search...">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
         <div class="table-responsive-sm">
             <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
                 <thead>

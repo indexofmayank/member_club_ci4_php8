@@ -27,12 +27,25 @@ class Member extends BaseController
             $sortColumn = 'm_id';
         }
 
+        //Retrive search item
+        $searchTerm = $this->request->getGet('search');
+        if(!empty($searchTerm)){
+            $this->memberModel->groupStart();
+            $this->memberModel->like('m_first_name', $searchTerm);
+            $this->memberModel->orLike('m_last_name', $searchTerm);
+
+            //Add similar coditions for other columns as needed
+            $this->memberModel->groupEnd();
+        }
+
+
         $data = [
             "members" => $this->memberModel->orderBy($sortColumn, $sortDirection)->paginate($perPage, 'group1'),
             "pager" => $this->memberModel->pager,
             "pager_group" => 'group1',
             "sort_column" => $sortColumn,
-            "sort_direction" => $sortDirection
+            "sort_direction" => $sortDirection,
+            "searchTerm" => $searchTerm
         ];
 
         return view("/admin/pages/Member_table", $data);
