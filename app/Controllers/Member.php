@@ -191,4 +191,9 @@ class Member extends BaseController
             echo "Something went wrong";
         }
     }
+
+    public function delete(int $member_id) 
+    {
+        return var_dump($member_id);
+    }
 }
