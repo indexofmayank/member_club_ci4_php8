@@ -84,6 +84,17 @@ class Member extends BaseController
             ]
         ];
 
+        //validate each document file
+        $documentFiles = $uploadedFiles['documents']??[];
+        foreach($documentFiles as $index => $documentFile) {
+            $rules["documents.{$index}"] = "uploaded[documents.{$index}]|mime_in[documents.{$index},application/pdf]|max_size[documents.{$index},2048]";
+                $errors["documents.{$index}"] = [
+                    'uploaded' => 'Please upload a document.',
+                    'mime_in' => 'The uploaded document is not valid. Only PDF files are allowed.',
+                    'max_size' => 'The document size should not exceed 2MB.'
+                ];
+        }
+
         $validation->setRules($rules, $errors);
 
         if ($validation->withRequest($this->request)->run()) {
@@ -108,8 +119,6 @@ class Member extends BaseController
 
             $result = $this->memberModel->createMember($data);
             if($result){
-
-                $documentFiles = $uploadedFiles['documents'];
                 $member_id = (int) $result;
 
                 //check if the files are uploaded and iterae over them
