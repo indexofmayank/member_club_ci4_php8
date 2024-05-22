@@ -7,6 +7,7 @@
         border: none;
         margin-right: 3px;
         padding: 0;
+        cursor: pointer;
     }
     .action-button:hover {
         border: 1px solid;
@@ -109,13 +110,13 @@
                             <td><?= esc($member['m_gender']) ?></td>
                             <td><?= esc($member['m_phone']) ?></td>
                             <td>
-                                <button class="action-button delete" data-toggle="tooltip" title="Delete">
+                                <button class="action-button delete" data-toggle="tooltip" title="Delete" data-id="<?= $member['m_id'] ?>">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                                <button class="action-button edit" data-toggle="tooltip" title="Edit">
+                                <button class="action-button edit" data-toggle="tooltip" title="Edit" data-id="<?= $member['m_id'] ?>">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
-                                <button class="action-button view" data-toggle="tooltip" title="View">
+                                <button class="action-button view" data-toggle="tooltip" title="View" data-id="<?= $member['m_id'] ?>">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>
@@ -130,10 +131,38 @@
     </div>
 </div>
 
-<!-- Initialize tooltips -->
+<!-- Initialize tooltips and handle button actions -->
 <script>
-    $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip();
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        // Handle delete button click
+        document.querySelectorAll('.action-button.delete').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var memberId = this.getAttribute('data-id');
+                window.location.href = '<?= base_url('delete') ?>/' + memberId;
+            });
+        });
+
+        // Handle edit button click
+        document.querySelectorAll('.action-button.edit').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var memberId = this.getAttribute('data-id');
+                window.location.href = '<?= base_url('edit') ?>/' + memberId;
+            });
+        });
+
+        // Handle view button click
+        document.querySelectorAll('.action-button.view').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var memberId = this.getAttribute('data-id');
+                window.location.href = '<?= base_url('view') ?>/' + memberId;
+            });
+        });
     });
 </script>
 
