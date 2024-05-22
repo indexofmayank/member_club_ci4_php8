@@ -24,7 +24,9 @@
         <link rel="stylesheet" href="assets/css/dark-theme.css" />
         <link rel="stylesheet" href="assets/css/semi-dark.css" />
         <link rel="stylesheet" href="assets/css/header-colors.css" />
-        <title>Synadmin  Bootstrap5 Admin Template</title>
+		<!-- fontAwesome Icon -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+		<title>Synadmin  Bootstrap5 Admin Template</title>
 </head>
 <body>
 <div class="wrapper">

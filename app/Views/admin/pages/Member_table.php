@@ -1,4 +1,3 @@
-<!-- app/Views/user_view.php -->
 <?= $this->extend("/admin/layouts/main") ?>
 <?= $this->section("content") ?>
 
@@ -6,18 +5,59 @@
     <div class="card-body">
         <?= anchor('add-member', 'Add New Member', ['class' => 'btn btn-primary mb-2 hover']) ?>
 
-        
         <div class="table-responsive-sm">
             <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
                 <thead>
                     <tr>
-                        <th>photo</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>DOB</th>
-                        <th>Address</th>
-                        <th>Status</th>
-                        <th>Gender</th>
+                        <th>Photo</th>
+                        <th>
+                            <a href="<?= base_url('member-table?sort_column=m_first_name&sort_direction=' . ($sort_column == 'm_first_name' && $sort_direction == 'ASC' ? 'DESC' : 'ASC')) ?>">
+                                First name
+                                <?php if ($sort_column == 'm_first_name'): ?>
+                                    <i class="fa fa-arrow-<?= $sort_direction == 'ASC' ? 'up' : 'down' ?>"></i>
+                                <?php endif; ?>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="<?= base_url('member-table?sort_column=m_last_name&sort_direction=' . ($sort_column == 'm_last_name' && $sort_direction == 'ASC' ? 'DESC' : 'ASC')) ?>">
+                                Last name
+                                <?php if ($sort_column == 'm_last_name'): ?>
+                                    <i class="fa fa-arrow-<?= $sort_direction == 'ASC' ? 'up' : 'down' ?>"></i>
+                                <?php endif; ?>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="<?= base_url('member-table?sort_column=m_dob&sort_direction=' . ($sort_column == 'm_dob' && $sort_direction == 'ASC' ? 'DESC' : 'ASC')) ?>">
+                                Dob
+                                <?php if ($sort_column == 'm_dob'): ?>
+                                    <i class="fa fa-arrow-<?= $sort_direction == 'ASC' ? 'up' : 'down' ?>"></i>
+                                <?php endif; ?>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="<?= base_url('member-table?sort_column=m_address&sort_direction=' . ($sort_column == 'm_address' && $sort_direction == 'ASC' ? 'DESC' : 'ASC')) ?>">
+                                Address
+                                <?php if ($sort_column == 'm_address'): ?>
+                                    <i class="fa fa-arrow-<?= $sort_direction == 'ASC' ? 'up' : 'down' ?>"></i>
+                                <?php endif; ?>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="<?= base_url('member-table?sort_column=m_status&sort_direction=' . ($sort_column == 'm_status' && $sort_direction == 'ASC' ? 'DESC' : 'ASC')) ?>">
+                                Status
+                                <?php if ($sort_column == 'm_status'): ?>
+                                    <i class="fa fa-arrow-<?= $sort_direction == 'ASC' ? 'up' : 'down' ?>"></i>
+                                <?php endif; ?>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="<?= base_url('member-table?sort_column=m_gender&sort_direction=' . ($sort_column == 'm_gender' && $sort_direction == 'ASC' ? 'DESC' : 'ASC')) ?>">
+                                Gender
+                                <?php if ($sort_column == 'm_gender'): ?>
+                                    <i class="fa fa-arrow-<?= $sort_direction == 'ASC' ? 'up' : 'down' ?>"></i>
+                                <?php endif; ?>
+                            </a>
+                        </th>
                         <th>Phone</th>
                     </tr>
                 </thead>
@@ -34,16 +74,14 @@
                             <td><?= esc($member['m_status']) ?></td>
                             <td><?= esc($member['m_gender']) ?></td>
                             <td><?= esc($member['m_phone']) ?></td>
-
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">
-          <?= $pager->links('group1', 'pagination') ?>
+                <?= $pager->links('group1', 'pagination') ?>
             </div>
         </div>
     </div>
 </div>
-<?= $this->endSection() ?>  
-
+<?= $this->endSection() ?>
