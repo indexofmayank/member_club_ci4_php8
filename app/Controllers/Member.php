@@ -203,7 +203,12 @@ class Member extends BaseController
     }
 
     public function viewByid(int $memberId)
-    {
-        return view('admin/pages/MemberInfoPage');
+    {   
+        $data = [
+            "member" => $this->memberModel->find($memberId),
+        ];
+
+
+        return view('admin/pages/MemberInfoPage', $data);
     }
 }
