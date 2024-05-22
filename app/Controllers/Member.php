@@ -196,4 +196,14 @@ class Member extends BaseController
     {
         return var_dump($member_id);
     }
+
+    public function update(int $memberId) 
+    {
+        return var_dump($memberId);
+    }
+
+    public function viewByid(int $memberId)
+    {
+        return view('admin/pages/MemberInfoPage');
+    }
 }

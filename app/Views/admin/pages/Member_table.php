@@ -169,6 +169,24 @@
             });
         });
 
+        // Handle edit button click
+        var memberId;
+        document.querySelectorAll('.action-button.edit').forEach(function(button) {
+            button.addEventListener('click', function() {
+                memberId = this.getAttribute('data-id');
+                window.location.href='<?= base_url('member-edit') ?>/' + memberId;
+            });
+        });
+
+        // Handle view button click
+        var memberId;
+        document.querySelectorAll('.action-button.view').forEach(function(button) {
+            button.addEventListener('click', function() {
+                memberId = this.getAttribute('data-id');
+                window.location.href='<?= base_url('member-view-by-id') ?>/'+memberId;
+            })
+        })
+
         // Confirm delete action
         document.getElementById('confirmDelete').addEventListener('click', function() {
             window.location.href = '<?= base_url('delete') ?>/' + memberId;
