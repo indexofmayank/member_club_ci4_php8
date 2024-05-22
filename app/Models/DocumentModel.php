@@ -4,23 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Member extends Model
+class DocumentModel extends Model
 {
-    protected $table            = 'members';
-    protected $primaryKey       = 'm_id';
+    protected $table            = 'documents';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        "m_first_name",
-        "m_last_name",
-        "m_dob",
-        "m_address",
-        "m_status",
-        "m_gender",
-        "m_phone",
-        "m_photo"
+        "member_id",
+        "document_id",
+        "document_data",
+        "document_name"
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -48,18 +44,4 @@ class Member extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-
-    public function listAllMembers() {
-        return $this->findAll();
-    }
-
-    public function getPaginatedMembers($perPage, $offset) {
-        return $this->paginate($perPage, 'group1', $offset);
-    }
-
-    public function createMember($data) {
-        $result = $this->insert($data);
-        return $result;
-    }
 }

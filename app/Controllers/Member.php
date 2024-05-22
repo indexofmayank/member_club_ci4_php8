@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\Member as MemberModel;
+use App\Models\DocumentModel;
 use App\Controllers\BaseController;
+use Codeigniter\HTTP\Files\UploadedFile;
 
 class Member extends BaseController
 {
@@ -55,6 +57,9 @@ class Member extends BaseController
         $photoFile = $this->request->getFile('photo');
         $photoData = file_get_contents($photoFile->getTempName());
 
+        $uploadedFiles = $this->request->getFiles();
+
+
 
         $rules = [
             "m_first_name" => "required|min_length[3]|max_length[50]",
@@ -102,11 +107,45 @@ class Member extends BaseController
             ];
 
             $result = $this->memberModel->createMember($data);
-            if ($result) {
-                return redirect()->to('/member-table');
+            if($result){
+
+                $documentFiles = $uploadedFiles['documents'];
+                $member_id = (int) $result;
+
+                //check if the files are uploaded and iterae over them
+                if($documentFiles) {
+                    //Handle the case where multiple files are uploaded under the same name
+                    if(is_array($documentFiles)) {
+                        foreach($documentFiles as $file) {
+                            if(is_array($file)){
+                                foreach($file as $f) {
+                                    $this->processDocumentFile($f, $member_id
+                                );
+                                }
+    
+                            } else {
+                                $this->processDocumentFile($file, $member_id);
+                            }
+                        } 
+    
+    
+                    } else {
+                        //Handle a single file
+                        $this->processDocumentFile($documentFiles, $member_id);
+                    }
+    
+    
+                } else {
+                    echo "No file are were uploaded.";
+                }
+    
+    
+
             } else {
                 return "Something went wrong";
             }
+
+            return redirect()->to('member-table/');
         } else {
             $data['validation'] = $validation;
             return view('admin/forms/Member_form', $data);
@@ -114,8 +153,29 @@ class Member extends BaseController
     } else {
         return "Something went wrong, please try to contact Mayank";
     }
+
 }
 
+
+    public function processDocumentFile(UploadedFile $file, int $member_id) {
+        if($file->isValid() && !$file->hasMoved()) {
+            $this->documentModel = new DocumentModel();
+
+
+            // Get the file contents
+            $documentData = file_get_contents($file->getTempName());
+
+            //save the file contents to the database
+            $this->documentModel->save([
+                'document_data' => $documentData,
+                'document_name' => $file->getClientName(),
+                'member_id' => $member_id
+            ]);
+
+        } else {
+            echo "something went worng";
+        }
+    }
 
 
 

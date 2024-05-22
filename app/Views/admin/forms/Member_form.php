@@ -58,6 +58,11 @@
                 <input type="file" class="form-control" id="photo" name="photo" value="<?= set_value('photo')?>">
             </div>
 
+            <div class="mb-3">
+                <label for="documents" class="form-label">Documents</label>
+                <input type="file" class="form-control" id="documents" name="documents[]" multiple accept="application/pdf">
+            </div>
+
 
 
             <button type="submit" class="btn btn-primary">Save</button>
