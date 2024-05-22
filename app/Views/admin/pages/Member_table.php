@@ -1,6 +1,34 @@
 <?= $this->extend("/admin/layouts/main") ?>
 <?= $this->section("content") ?>
 
+<style>
+    .action-button {
+        background-color: transparent;
+        border: none;
+        margin-right: 3px;
+        padding: 0;
+    }
+    .action-button:hover {
+        border: 1px solid;
+        border-radius: 0.25rem;
+    }
+    .action-button .fas {
+        font-size: 1.2rem;
+    }
+    .action-button.delete:hover {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+    .action-button.edit:hover {
+        border-color: #007bff;
+        color: #007bff;
+    }
+    .action-button.view:hover {
+        border-color: #17a2b8;
+        color: #17a2b8;
+    }
+</style>
+
 <div class="card">
     <div class="card-body">
         <?= anchor('add-member', 'Add New Member', ['class' => 'btn btn-primary mb-2 hover']) ?>
@@ -64,6 +92,7 @@
                             </a>
                         </th>
                         <th>Phone</th>
+                        <th><strong>Action</strong></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,6 +108,17 @@
                             <td><?= esc($member['m_status']) ?></td>
                             <td><?= esc($member['m_gender']) ?></td>
                             <td><?= esc($member['m_phone']) ?></td>
+                            <td>
+                                <button class="action-button delete" data-toggle="tooltip" title="Delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <button class="action-button edit" data-toggle="tooltip" title="Edit">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="action-button view" data-toggle="tooltip" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -89,4 +129,12 @@
         </div>
     </div>
 </div>
+
+<!-- Initialize tooltips -->
+<script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+
 <?= $this->endSection() ?>
