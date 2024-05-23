@@ -34,19 +34,21 @@
                 <label for="address" class="form-label">Address *</label>
                 <input type="text" class="form-control" id="address" name="address" value="<?= set_value('address') ?>" required>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 row">
+            <div class="mb-3 col">
                 <label for="status" class="form-label">Status *</label>
                 <select class="form-select" id="status" name="status" required>
                     <option value="active" <?= set_select('status', 'active') ?>>Active</option>
                     <option value="inactive" <?= set_select('status', 'inactive') ?>>Inactive</option>
                 </select>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 col">
                 <label for="gender" class="form-label">Gender *</label>
                 <select class="form-select" id="gender" name="gender" required>
                     <option value="male" <?= set_select('gender', 'male') ?>>Male</option>
                     <option value="female" <?= set_select('gender', 'female') ?>>Female</option>
                 </select>
+            </div>
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone *</label>
