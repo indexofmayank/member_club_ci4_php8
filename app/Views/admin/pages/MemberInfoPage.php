@@ -1,6 +1,6 @@
 <?= $this->extend('/admin/layouts/main') ?>
 <?= $this->section('content') ?>
-<div class="container mt-5">
+<div class="container mt-3">
         <div class="card">
             <div class="card-header text-center">
                 <h2>Member Information</h2>
@@ -16,15 +16,18 @@
                         <p><strong>Address:</strong> <span id="user-address"><?= esc($member['m_address']) ?></span></p>
                         <p><strong>Gender:</strong> <span id="user-gender"><?= esc($member['m_gender']) ?></span></p>
                         <p><strong>Phone:</strong> <span id="user-phone"><?= esc($member['m_phone']) ?></span></span></p>
-                        <p><strong>Email:</strong> <span id="user-email">johndoe@example.com</span></p>
+                        <p><strong>Status:</strong><span id="user-status"><?=esc($member['m_status']) ?></span></p>
                     </div>
                 </div>
                 <h5>Documents:</h5>
-                <ul id="user-documents">
-                    <li><a href="path_to_document1.pdf" target="_blank">Document 1</a></li>
-                    <li><a href="path_to_document2.pdf" target="_blank">Document 2</a></li>
-                    <!-- Add more documents as needed -->
-                </ul>
+                <?php if(!empty($documents)): ?>
+                    <?php foreach($documents as $document): ?>
+                        <li><a href="<?= base_url('member-document/' . esc($document['id'])) ?>" target="_blank"><?= esc($document['document_name']) ?></a></li>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No documens found</p>
+                <?php endif; ?>
+
             </div>
         </div>
 </div>

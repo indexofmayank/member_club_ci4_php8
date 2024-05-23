@@ -27,6 +27,10 @@ class Member extends BaseController
             $sortColumn = 'm_id';
         }
 
+        //Retrive to tatal rows
+        $totalrow = $this->memberModel->countAllResults();
+        $activeCount = $this->memberModel->where('m_status', 'active')->countAllResults();
+
         //Retrive search item
         $searchTerm = $this->request->getGet('search');
         if(!empty($searchTerm)){
@@ -45,7 +49,9 @@ class Member extends BaseController
             "pager_group" => 'group1',
             "sort_column" => $sortColumn,
             "sort_direction" => $sortDirection,
-            "searchTerm" => $searchTerm
+            "searchTerm" => $searchTerm,
+            "totalMember" => $totalrow,
+            "activeCount" => $activeCount
         ];
 
         return view("/admin/pages/Member_table", $data);
@@ -193,8 +199,12 @@ class Member extends BaseController
     }
 
     public function delete(int $member_id) 
-    {
-        return var_dump($member_id);
+    {   
+        $result = $this->memberModel->delete($member_id);
+        if(!$result) {
+            return "Something wrong happen";
+        }
+        return redirect('member-table'); 
     }
 
     public function update(int $memberId) 
@@ -204,11 +214,46 @@ class Member extends BaseController
 
     public function viewByid(int $memberId)
     {   
+        $documentModel = new DocumentModel();
+        // Join the documents table with the members table
+        $documents = $documentModel->select('documents.*, members.m_first_name')
+                                   ->join('members', 'members.m_id = documents.member_id')
+                                   ->where('documents.member_id', $memberId)
+                                   ->findAll();
+
+
         $data = [
             "member" => $this->memberModel->find($memberId),
+            "documents" => $documents,
         ];
-
-
+        //return var_dump($documents[0]['document_name']);
         return view('admin/pages/MemberInfoPage', $data);
+        
     }
+
+    public function documentById(int $documentId) 
+    {
+        $documentModel = new DocumentModel();
+        $document = $documentModel->find($documentId);
+        $fileName = $document['document_name'];
+        $pdfData = $document['document_data'];
+
+        //set the content type header to pdf
+         header('Content-Type: application/pdf');
+
+        //set the content dispostion header to inline to display PDF in browser
+         header('Content-Disposition: inline; filename="' . $fileName . '"');
+
+        // Prevent caching
+        header('Cache-Control: private, max-age=0, must-revalidate');
+        header('Pragma: public');
+        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+        
+        echo $pdfData;
+        exit();
+
+    }
+
 }
+
+
