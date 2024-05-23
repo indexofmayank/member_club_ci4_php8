@@ -207,9 +207,16 @@ class Member extends BaseController
         return redirect('member-table'); 
     }
 
-    public function update(int $memberId) 
-    {
-        return var_dump($memberId);
+    public function edit(int $memberId) 
+    {   
+
+        
+
+        $data = [
+            "member" => $this->memberModel->find($memberId),
+        ];
+        return view('admin/forms/Update_form', $data);
+
     }
 
     public function viewByid(int $memberId)
@@ -252,6 +259,77 @@ class Member extends BaseController
         echo $pdfData;
         exit();
 
+    }
+
+    public function update($memberId) {
+
+        $data = [
+            'member' => $this->memberModel->find($memberId),
+        ];
+
+        helper(['form']);
+        $validation = \Config\Services::validation();
+
+        if($this->request->getMethod() == 'post') {
+
+            $rules = [
+                "m_first_name" => "required|min_length[3]|max_length[50]",
+                "m_last_name" => "required|min_length[3]|max_length[50]",
+                "dob" => "required|valid_date",
+                "address" => "required|max_length[255]|min_length[10]",
+                "status" => "required|in_list[active,inactive]",
+                "gender" => "required|in_list[male,female]",
+                "phone" => "required|numeric|exact_length[10]",
+            ];
+
+            $errors = [
+                'dob' => [
+                    'required' => 'The Date of Birth is required.',
+                    'valid_date' => 'The Date of Birth is not valid.',
+                ],
+                "photo" => [
+                    'uploaded' => 'Please upload an image.',
+                    'mime_in' => 'The uploaded file is not a valid Image. Allowed types are jpg and jpeg',
+                    'max_size' => 'The image size should not exceed 2MB.'
+                ]
+            ];
+
+            $validation->setRules($rules, $errors);
+
+            if($validation->withRequest($this->request)->run()) {
+
+                // Check if DOB is before 2024
+                $dob = date_create($this->request->getPost("dob"));
+                if ($dob && date_format($dob, 'Y') >= 2024) {
+                    $validation->setError('dob', 'The Date of Birth should be before 2024.');
+                    $data['validation'] = $validation;
+                    return view('admin/forms/Update_form', $data);
+                    }
+                
+
+
+                $memberData = [
+                    "m_first_name" => $this->request->getPost('m_first_name'),
+                    "m_last_name" => $this->request->getPost('m_last_name'),
+                    'm_address' => $this->request->getPost('address'),
+                    'm_dob' => $this->request->getPost('dob'),
+                    'm_status' => $this->request->getPost('status'),
+                    'm_gender' => $this->request->getPost('gender'),
+                    'm_phone' => $this->request->getPost('phone')
+                ];
+
+                //updating the data in database
+                $updateResult = $this->memberModel->update($memberId, $memberData);
+                return redirect()->to('member-table/');
+
+            } else {
+                $data['validation'] = $validation;
+                return view('admin/forms/Update_form', $data);
+            }
+
+        } else {
+            return "Something went wrong, please try to contact Mayank";
+        }
     }
 
 }

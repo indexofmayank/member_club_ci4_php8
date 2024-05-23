@@ -12,6 +12,7 @@ $routes->get('add-member','Member::addMemberForm');
 $routes->post('member/save', 'Member::save');
 $routes->get('member/member-photo/(:num)', 'Member::showImage/$1');
 $routes->get('member-delete/(:num)', 'Member::delete/$1');
-$routes->get('member-edit/(:num)', 'Member::update/$1');
+$routes->get('member-edit/(:num)', 'Member::edit/$1');
 $routes->get('member-view-by-id/(:num)', 'Member::viewById/$1');
 $routes->get('member-document/(:num)', 'Member::documentById/$1');
+$routes->post('member-update/(:num)', 'Member::update/$1');
