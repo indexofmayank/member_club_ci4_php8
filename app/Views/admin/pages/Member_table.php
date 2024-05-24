@@ -116,16 +116,16 @@
                   <td><?= esc($member['m_gender']) ?></td>
                   <td><?= esc($member['m_phone']) ?></td>
                   <td>
-                     <button class="action-button delete" data-toggle="tooltip" title="Delete" data-id="<?= $member['m_id'] ?>">
-                     <i class="fas fa-trash-alt"></i>
-                     </button>
-                     <button class="action-button edit" data-toggle="tooltip" title="Edit" data-id="<?= $member['m_id'] ?>">
-                     <i class="fas fa-pencil-alt"></i>
-                     </button>
                      <button class="action-button view" data-toggle="tooltip" title="View" data-id="<?= $member['m_id'] ?>">
                      <i class="fas fa-eye"></i>
                      </button>
-                  </td>
+                     <button class="action-button edit" data-toggle="tooltip" title="Edit" data-id="<?= $member['m_id'] ?>">
+                        <i class="fas fa-pencil-alt"></i>
+                     </button>
+                     <button class="action-button delete" data-toggle="tooltip" title="Delete" data-id="<?= $member['m_id'] ?>">
+                        <i class="fas fa-trash-alt"></i>
+                     </button>
+               </td>
                </tr>
                <?php endforeach; ?>
             </tbody>

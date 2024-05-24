@@ -7,12 +7,8 @@
         <!--favicon-->
         <link rel="icon" href="<?= base_url('assets/images/favicon-32x32.png') ?>" type="image/png" />
         <!--plugins-->
-        <link href="<?= base_url('assets/plugins/simplebar/css/simplebar.css') ?>" rel="stylesheet" />
-        <link href="<?= base_url('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') ?>" rel="stylesheet" />
-        <link href="<?= base_url('assets/plugins/highcharts/css/highcharts.css') ?>" rel="stylesheet" />
-        <link href="<?= base_url('assets/plugins/metismenu/css/metisMenu.min.css') ?>" rel="stylesheet" />
-        <link href="<?= base_url('assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') ?>" rel="stylesheet" />
-        <!-- loader-->
+
+		<!-- loader-->
         <link href="<?= base_url('assets/css/pace.min.css') ?>" rel="stylesheet" />
         <script src="assets/js/pace.min.js"></script>
         <!-- Bootstrap CSS -->
@@ -453,14 +449,6 @@
 	<script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
 	<script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
 	<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-	<script src="assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
-	<script src="assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
-	<script src="assets/plugins/highcharts/js/highcharts.js"></script>
-	<script src="assets/plugins/highcharts/js/exporting.js"></script>
-	<script src="assets/plugins/highcharts/js/variable-pie.js"></script>
-	<script src="assets/plugins/highcharts/js/export-data.js"></script>
-	<script src="assets/plugins/highcharts/js/accessibility.js"></script>
-	<script src="assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
     <script>
 		new PerfectScrollbar('.dashboard-top-countries');
 	</script>

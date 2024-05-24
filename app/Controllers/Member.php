@@ -58,16 +58,40 @@ class Member extends BaseController
     }
 
     public function showImage($id)
-    {
-        $member = $this->memberModel->find($id);
-        if($member) {
-            $imageData = $member['m_photo'];
-            header('Content-Type: image/jpeg');
-            return $this->response->setContentType('jpg')->setBody($imageData);
-        } else {
-            echo "Image not found";
-        }
+{
+    // Load the member model
+    $member = $this->memberModel->find($id);
+
+    if ($member) {
+        // Get the image data from the database
+        $imageData = $member['m_photo'];
+
+        // Create a temporary file for the image data
+        $tempFile = tempnam(sys_get_temp_dir(), 'img');
+        file_put_contents($tempFile, $imageData);
+
+        // Load the Image Manipulation library
+        $image = \Config\Services::image()
+                    ->withFile($tempFile)
+                    ->resize(40, 40, true, 'height')  // Resize to 200x200 pixels, maintaining aspect ratio
+                    ->crop(40, 40);  // Crop the image to 200x200 pixels
+
+        // Create a new temporary file for the resized and cropped image
+        $resizedImagePath = tempnam(sys_get_temp_dir(), 'img_resized');
+        $image->save($resizedImagePath);
+
+        // Get the content of the resized image
+        $resizedImageData = file_get_contents($resizedImagePath);
+
+        // Set the response headers and return the resized image
+        return $this->response
+                    ->setContentType('image/jpeg')
+                    ->setBody($resizedImageData);
+    } else {
+        echo "Image not found";
     }
+}
+
 
     public function addMemberForm()
     {
@@ -233,7 +257,6 @@ class Member extends BaseController
             "member" => $this->memberModel->find($memberId),
             "documents" => $documents,
         ];
-        //return var_dump($documents[0]['document_name']);
         return view('admin/pages/MemberInfoPage', $data);
         
     }
