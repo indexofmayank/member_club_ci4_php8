@@ -194,7 +194,7 @@ class Member extends BaseController
                     return "Something went wrong";
                 }
 
-                return redirect()->to('member-table/');
+                return redirect()->to('member-table');
             } else {
                 $data['validation'] = $validation;
                 return view('admin/forms/Member_form', $data);
