@@ -47,7 +47,15 @@
 						<div class="menu-title">Members</div>
 					</a>
 				</li>
-				
+				<li>
+					<a href="<?php echo base_url('rooms'); ?>">
+						<div class="parent-icon"><i class="bx bx-home-heart"></i>
+						</div>
+						<div class="menu-title">Rooms</div>
+					</a>
+				</li>
+
+
 			</ul>
 			<!--end navigation-->
 		</div>
